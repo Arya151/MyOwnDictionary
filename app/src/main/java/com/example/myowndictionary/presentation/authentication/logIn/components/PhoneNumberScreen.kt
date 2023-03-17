@@ -2,7 +2,9 @@ package com.example.myowndictionary.presentation.authentication.logIn.components
 
 import android.app.Activity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -11,7 +13,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +49,7 @@ fun PhoneNumberScreen(
     Column() {
         Text(
             text = "Enter Your Phone Number",
-            color = colorResource(id = R.color.sub_main),
+            color = colorResource(id = R.color.semi_white),
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
@@ -55,7 +60,7 @@ fun PhoneNumberScreen(
                 Text(
                     "Country Code",
                     fontSize = 12.sp,
-                    color = Color.Gray,
+                    color = colorResource(id = R.color.white),
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 BasicTextField(
@@ -63,12 +68,17 @@ fun PhoneNumberScreen(
                     textStyle = TextStyle(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Medium,
-                        color = colorResource(id = R.color.main)
+                        color = colorResource(id = R.color.white)
                     ),
                     decorationBox = { innerTextField ->
                         Box(
                             modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                                .padding(vertical = 4.dp)
+                                .border(
+                                    width = (1.5).dp,
+                                    color = colorResource(id = R.color.white),
+                                    shape = RoundedCornerShape(6.dp)
+                                )
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 12.dp),
                         ) {
@@ -83,9 +93,7 @@ fun PhoneNumberScreen(
                             innerTextField()
                         }
                     },
-                    modifier = Modifier
-                        .background(colorResource(id = R.color.light))
-                        .width(100.dp),
+                    modifier = Modifier.width(100.dp),
                     value = countryCode,
                     onValueChange = { value: String ->
                         var lengthCorrect = false
@@ -115,12 +123,12 @@ fun PhoneNumberScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(modifier = Modifier.width(10.dp))
             Column() {
                 Text(
                     "Phone Number",
                     fontSize = 12.sp,
-                    color = Color.Gray,
+                    color = colorResource(id = R.color.white),
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 BasicTextField(
@@ -128,12 +136,17 @@ fun PhoneNumberScreen(
                     textStyle = TextStyle(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Medium,
-                        color = colorResource(id = R.color.main)
+                        color = colorResource(id = R.color.white)
                     ),
                     decorationBox = { innerTextField ->
                         Box(
                             modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                                .padding(vertical = 4.dp)
+                                .border(
+                                    width = (1.5).dp,
+                                    color = colorResource(id = R.color.white),
+                                    shape = RoundedCornerShape(6.dp)
+                                )
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 12.dp),
                         ) {
@@ -148,7 +161,6 @@ fun PhoneNumberScreen(
                             innerTextField()
                         }
                     },
-                    modifier = Modifier.background(colorResource(id = R.color.light)),
                     value = phoneNumber,
                     onValueChange = { value: String ->
                         var lengthCorrect = false
@@ -176,9 +188,10 @@ fun PhoneNumberScreen(
         Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = errorMsg,
-            color = colorResource(id = R.color.red_light),
+            color = colorResource(id = R.color.red),
             fontSize = 12.sp,
-            modifier = Modifier.padding(2.dp)
+            modifier = Modifier.padding(2.dp),
+            fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(24.dp))
         Button(
@@ -195,15 +208,16 @@ fun PhoneNumberScreen(
 
                     CircularProgressIndicator(activity)
                     otpStatusText = "Sending Otp..."
+                    sendOtpEnabled = false
                 } else {
                     errorMsg = "Invalid phone number"
                 }
             },
             enabled = sendOtpEnabled,
-            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.main)),
+            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.white)),
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = otpStatusText, fontSize = 18.sp, color = Color.White)
+            Text(text = otpStatusText, fontSize = 18.sp, color = colorResource(id =  if(sendOtpEnabled) R.color.main else R.color.gray))
         }
     }
 

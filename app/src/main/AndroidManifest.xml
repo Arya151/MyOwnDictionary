@@ -11,6 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyOwnDictionary">
         <activity
+            android:name=".presentation.viewCollection.ViewCollectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.createCollection.CreateCollectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.authentication.logIn.OtpVerificationActivity"
             android:exported="false" />
         <activity
@@ -27,7 +33,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.home.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

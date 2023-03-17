@@ -1,9 +1,8 @@
 package com.example.myowndictionary.presentation.authentication.logIn.components
 
-import androidx.compose.foundation.border
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -11,42 +10,33 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.example.myowndictionary.R
 import com.example.myowndictionary.presentation.authentication.logIn.AuthenticationViewModel
+import com.example.myowndictionary.presentation.authentication.logIn.LogInActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthProvider
+import java.lang.Exception
+
 
 @Composable
-fun OtpVerificationScreen(authViewModel: AuthenticationViewModel) {
-
-    var enteredOtp by remember { mutableStateOf("      ") }
-    var otpStatusText by remember { mutableStateOf("Verify Otp") }
-    var sendOtpEnabled by remember { mutableStateOf(false) }
-    var currentFocus by remember { mutableStateOf(1) }
-
-    val otpBox = Modifier
-        .width(36.dp)
-        .height(36.dp)
-        .border(
-            width = 2.dp,
-            color = colorResource(id = R.color.light),
-            shape = RoundedCornerShape(size = 4.dp)
-        )
-
-    val otpNum = TextStyle(
-        textAlign = TextAlign.Center,
-        color = colorResource(id = R.color.main),
-        fontSize = 16.sp
-    )
-
-    val otpBoxStyle = Modifier
-        .width(38.dp)
-        .height(38.dp)
+fun OtpVerificationScreen(
+    lifecycleOwner: LifecycleOwner,
+    authViewModel: AuthenticationViewModel
+) {
+    val mContext = LocalContext.current
+    var otpStatusText by remember { mutableStateOf("") }
+    //val enteredOtp by authViewModel.getEnteredOtp().observeAsState()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -54,145 +44,87 @@ fun OtpVerificationScreen(authViewModel: AuthenticationViewModel) {
     ) {
         Text(
             text = "Otp Verification",
-            color = colorResource(id = R.color.sub_main),
+            color = colorResource(id = R.color.semi_white),
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = "Otp has been sent to +919422848769",
-            color = colorResource(id = R.color.light),
-            fontSize = 18.sp
+            color = colorResource(id = R.color.white),
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        LazyRow() {
-            items(count = authViewModel.getEnteredOtp().length,
-                itemContent = { item ->
-
-            })
-        }
-                    /*  Row() {
-                          BasicTextField(
-                              value = enteredOtp[0].toString(),
-                              modifier = otpBoxStyle,
-                              onValueChange = {
-
-                              },
-                              textStyle = otpNum,
-                              decorationBox = { innerTextField ->
-                                  Box(
-                                      modifier = otpBox,
-                                      contentAlignment = Alignment.Center
-                                  ) {
-                                      innerTextField()
-                                  }
-                              },
-                          )
-                          Spacer(modifier = Modifier.width(6.dp))
-                          BasicTextField(
-                              value = enteredOtp[1].toString(),
-                              modifier = otpBoxStyle,
-                              onValueChange = {
-
-                              },
-                              textStyle = otpNum,
-                              decorationBox = { innerTextField ->
-                                  Box(
-                                      modifier = otpBox,
-                                      contentAlignment = Alignment.Center
-                                  ) {
-                                      innerTextField()
-                                  }
-                              },
-                          )
-                          Spacer(modifier = Modifier.width(6.dp))
-                          BasicTextField(
-                              value = enteredOtp[2].toString(),
-                              modifier = otpBoxStyle,
-                              onValueChange = {
-
-                              },
-                              textStyle = otpNum,
-                              decorationBox = { innerTextField ->
-                                  Box(
-                                      modifier = otpBox,
-                                      contentAlignment = Alignment.Center
-                                  ) {
-                                      innerTextField()
-                                  }
-                              },
-                          )
-                          Spacer(modifier = Modifier.width(6.dp))
-                          BasicTextField(
-                              value = enteredOtp[3].toString(),
-                              modifier = otpBoxStyle,
-                              onValueChange = {
-
-                              },
-                              textStyle = otpNum,
-                              decorationBox = { innerTextField ->
-                                  Box(
-                                      modifier = otpBox,
-                                      contentAlignment = Alignment.Center
-                                  ) {
-                                      innerTextField()
-                                  }
-                              },
-                          )
-                          Spacer(modifier = Modifier.width(6.dp))
-                          BasicTextField(
-                              value = enteredOtp[4].toString(),
-                              modifier = otpBoxStyle,
-                              onValueChange = {
-
-                              },
-                              textStyle = otpNum,
-                              decorationBox = { innerTextField ->
-                                  Box(
-                                      modifier = otpBox,
-                                      contentAlignment = Alignment.Center
-                                  ) {
-                                      innerTextField()
-                                  }
-                              },
-                          )
-                          Spacer(modifier = Modifier.width(6.dp))
-                          BasicTextField(
-                              value = enteredOtp[5].toString(),
-                              modifier = otpBoxStyle,
-                              onValueChange = {
-
-                              },
-                              textStyle = otpNum,
-                              decorationBox = { innerTextField ->
-                                  Box(
-                                      modifier = otpBox,
-                                      contentAlignment = Alignment.Center
-                                  ) {
-                                      innerTextField()
-                                  }
-                              },
-                          )
-                      }*/
-
-                    Spacer (modifier = Modifier.height(24.dp))
-                    Button (
-                    onClick = {
-
-                    },
-                enabled = sendOtpEnabled,
-                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.main)),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = otpStatusText, fontSize = 18.sp, color = Color.White)
-            }
+        Row(
+            Modifier.height(56.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            authViewModel.setTotalDigitsOfOtp(6)
+            CustomOtpField(authViewModel = authViewModel)
         }
 
+        Text(
+            text = otpStatusText,
+            color = colorResource(id = R.color.red_light),
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center
+        )
+
+        Button(
+            onClick = {
+                var enteredOtp = ""
+                for (digit in authViewModel.getEnteredOtp().value!!) {
+                    enteredOtp += digit
+                }
+                if(authViewModel.getVerificationId().isNotEmpty()) {
+                    try{
+                        val credential = PhoneAuthProvider.getCredential(authViewModel.getVerificationId(), enteredOtp)
+                        val mAuth = FirebaseAuth.getInstance()
+                        mAuth.signInWithCredential(credential)
+                            .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
+                                if (task.isSuccessful) {
+                                    // if the code is correct and the task is successful
+                                    // we are sending our user to new activity.
+                                    Log.d("abx", "Log In success >>")
+                                    authViewModel.updateScreenNumber(3)
+                                } else {
+                                    // if the code is not correct then we are
+                                    // displaying an error message to the user.
+                                    Log.d("abx", "Log In fail >>")
+                                    otpStatusText = "Invalid Otp"
+                                }
+                            })
+                    }catch (e:Exception){
+                        otpStatusText = "Invalid Otp"
+                        Log.e("Error","Exception: $e")
+                        Toast.makeText(mContext,e.localizedMessage,Toast.LENGTH_LONG).show()
+                    }
+
+                }
+
+            },
+            enabled = true,
+            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.white)),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)
+        ) {
+            Text(text = "Verify Otp", fontSize = 18.sp, color = colorResource(id = R.color.main))
+        }
     }
 
-    @Preview
-    @Composable
-    fun PreviewOtpScreen() {
-        OtpVerificationScreen(authViewModel = AuthenticationViewModel())
-    }
+    authViewModel.otp.observe(lifecycleOwner, Observer {
+        otpStatusText = ""
+    })
+
+}
+
+@Preview
+@Composable
+fun PreviewOtpScreen() {
+    OtpVerificationScreen(
+        lifecycleOwner = LogInActivity() as LifecycleOwner,
+        authViewModel = AuthenticationViewModel()
+    )
+}

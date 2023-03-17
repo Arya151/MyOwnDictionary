@@ -12,4 +12,8 @@
     <color name="sub_main">#557CDD</color>
     <color name="light">#97DAEB</color>
     <color name="red_light">#EC6745</color>
+    <color name="red">#AEECA492</color>
+    <color name="semi_white">#A3FFFFFF</color>
+    <color name="gray">#B3B2B2</color>
+
 </resources>
